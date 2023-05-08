@@ -1,0 +1,19 @@
+
+userAdd -> Actions(state=payload) {{ useful many places}}
+
+Getting state
+import {useSelector} from 'react-redux'
+
+const userAdd = useSelector((state)=>state.userAdd)
+
+console.log(userAdd)
+
+Changing state
+
+import { useDispatch } from 'react-redux'
+import {setAdd} from './states/reducers/userAdd'
+
+const dispatch = useDispatch();
+
+dispatch(setAdd("manish"))
+onClick={()=>dispatch(Add(transactions))}
