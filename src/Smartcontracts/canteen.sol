@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.2;
 
 contract Canteen {
     string public name = "Kalssy Cafe";
     address public Owner;
     address public Contractor;
-    int id = 0;
+    int public total_users = 0;
+
 
     constructor() {
         Owner = msg.sender;
@@ -40,6 +42,7 @@ contract Canteen {
         // ? set add update function
         checkUser(msg.sender);
         userDetails[msg.sender] = User(msg.sender, _meal, _username, _expiry,"","");
+        total_users++;
     }
 
     function getUser(address useraddress)
@@ -88,8 +91,8 @@ contract Canteen {
 }
 
 
-// Contract Address : "0x719FfdE07307563B9Fe9f85Ee0D8931F23Fa5C15"
-// ABI: [
+// Contract Address : "0x23AAc9E3646b402FAF954f8ec2B254c087f1545F" 
+// [
 // 	{
 // 		"inputs": [
 // 			{
@@ -254,6 +257,19 @@ contract Canteen {
 // 				"internalType": "address",
 // 				"name": "",
 // 				"type": "address"
+// 			}
+// 		],
+// 		"stateMutability": "view",
+// 		"type": "function"
+// 	},
+// 	{
+// 		"inputs": [],
+// 		"name": "total_users",
+// 		"outputs": [
+// 			{
+// 				"internalType": "int256",
+// 				"name": "",
+// 				"type": "int256"
 // 			}
 // 		],
 // 		"stateMutability": "view",

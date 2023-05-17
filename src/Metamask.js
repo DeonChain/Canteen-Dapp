@@ -270,20 +270,16 @@ export default function Metamask() {
 		setContract(tempContract);	
 	}
 
-	// const setHandler = (event) => {
-	// 	event.preventDefault();
-	// 	console.log('sending ' + event.target.setText.value + ' to the contract');
-	// 	contract.setContractor(event.target.setText.value);
-	// }
-
-  
+	const setContractor = (event) => {
+		event.preventDefault();
+		console.log('sending ' + event.target.setText.value + ' to the contract');
+		contract.setContractor(event.target.setText.value);
+	}
 
         const getname = async () => {
             let val = await (contract.name);
             setCurrentContractVal(val)
         }
-
-
 
 
   return (
@@ -295,10 +291,10 @@ export default function Metamask() {
 				<h3>Address: {defaultAccount}</h3>
 			</div>
 
-			{/* <form onSubmit={setHandler}>
+			<form onSubmit={setContractor}>
 				<input id="setText" type="text"/>
 				<button type={"submit"}> Update Contractor </button>
-			</form> */}
+			</form>
 			<div>
 			<button onClick={getname} style={{marginTop: '5em'}}> Get Contract Name </button>
 			</div>

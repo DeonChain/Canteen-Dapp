@@ -1,26 +1,16 @@
 import "./App.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { setAdd } from "./states/reducers/userAdd";
+import { registerUser } from "./states/reducers/contractData";
+import { addUserData } from "./states/reducers/contractData";
+import Metamask from "./Metamask";
 import { ethers } from "ethers";
 import ABI from "./ABI.json";
-import {BrowserRouter, Routes, Route} from 'react-router-dom'
-
-import { setAdd } from "./states/reducers/userAdd";
-import { registerUser, addUserData,AddAddressData, setNoOfUsers} from "./states/reducers/contractData";
-import Nav from "./Nav";
-import Home from "./Home";
-import Footer from "./Footer";
-import Feedback from "./Feedback";
-import Profile from "./Profile";
-
-
-
+import WalletConnect from "./WalletConnect";
 
 function App() {
-
-  const dispatch = useDispatch();
-
   // state for transactions and penalty, temporary state. Define in component where you want this
   const [TransData, setTransData] = useState("W897&&2328732792");
   const [temp, setTemp] = useState("");
@@ -28,15 +18,11 @@ function App() {
   // State for Blockchain Data Storage. Define in redux so that Each page can Manage
   // Contractor, getUser,name,owner,registeredArray,userDetails
 
-  let contractAddress = "0xbabaC5EB75C0C54434664d15DEE84047a3371aC6";
-
+  let contractAddress = "0x28eFc61F9c557dB22B09fb629c4b08E452ac7360";
 
   const userAdd = useSelector((state) => state.userAdd);
   const contractData = useSelector((state) => state.contractData);
-  const mealRating = useSelector((state)=>state.temp.mealRating)
-  const timeRating = useSelector((state)=>state.temp.timeRating)
-  const staffRating = useSelector((state)=>state.temp.staffRating) 
-
+  const dispatch = useDispatch();
 
   const [errorMessage, setErrorMessage] = useState(null);
   const [defaultAccount, setDefaultAccount] = useState(null);
@@ -45,40 +31,6 @@ function App() {
   const [provider, setProvider] = useState(null);
   const [signer, setSigner] = useState(null);
   const [contract, setContract] = useState(null);
-
-  useEffect(()=>{
-
-    dispatch(setAdd(defaultAccount))
- 
-  },[defaultAccount])
-
-
-  useEffect(()=>{
-    if (!(contract === null))
-    {
-        get_total_users();
-
-       
-    }
-  },[contract])
-
-  useEffect(()=>{
-
-
-    for(var i=0; i < (contractData.total_users-1);i++)
-       {
-        getRegisteredforIndex(i)
-        // getUserFromAddress(contractData.registeredArray[i]);
-
-       if(contractData.registeredArray[i])
-        {
-          getUserFromAddress(contractData.registeredArray[i]);
-        }
-        
-        }
-
-  },[contractData.total_users, contractData.registeredArray])
-
 
   const connectWalletHandler = () => {
     if (window.ethereum && window.ethereum.isMetaMask) {
@@ -92,6 +44,7 @@ function App() {
           setErrorMessage(error.message);
         });
     } else {
+      console.log("Need to install MetaMask");
       setErrorMessage("Please install MetaMask browser extension to interact");
     }
   };
@@ -99,7 +52,6 @@ function App() {
   // update account, will cause component re-render
   const accountChangedHandler = (newAccount) => {
     setDefaultAccount(newAccount);
-    dispatch(setAdd(defaultAccount));
     updateEthers();
   };
 
@@ -119,34 +71,39 @@ function App() {
     setSigner(tempSigner);
     let tempContract = new ethers.Contract(contractAddress, ABI, tempSigner);
     setContract(tempContract);
-    dispatch(setAdd(defaultAccount));
   };
 
   // SetUser("meal","username","2327352")
 
-  const setUser = (data) => {
-    const allData = data.split(" ");
-    contract.setUser(allData[0],allData[1],allData[2]);
+  const setUser = (event) => {
+    event.preventDefault();
+    console.log("sending Data to the contract");
+    contract.setUser(
+      event.target.setMeal.value,
+      event.target.setUname.value,
+      event.target.setExpiry.value
+    );
   };
 
   // setTransaction("w52&875")
 
   const setTransaction = (value) => {
     // event.preventDefault();
+    console.log("sending Data to the contract");
     contract.setTransaction(value);
   };
   // setContractor("w52&875")
 
   const setContractor = (event) => {
     event.preventDefault();
-
+    console.log("sending " + event.target.setText.value + " to the contract");
     contract.setContractor(event.target.setText.value);
   };
 
   // setPenalty("TidT")
 
   const setPenalty = (value) => {
-
+    console.log("sending Data to the contract");
     contract.setPenalty(value);
   };
 
@@ -155,13 +112,6 @@ function App() {
   const getname = async () => {
     let val = await contract.name();
     setCurrentContractVal(val);
-  };
-
-  // get total_users from contract
-
-  const get_total_users = async () => {
-    let val = await contract.total_users();
-    dispatch(setNoOfUsers(parseInt((val._hex).slice(-2))));
   };
 
   // getRegisteredforIndex ---> Get useraddress for an index, add UserAddress in ContractData.registeredArray
@@ -175,40 +125,107 @@ function App() {
   const getUserFromAddress = async (address) => {
     let val = await contract.getUser(address);
     dispatch(addUserData(val));
-    if (address.toUpperCase() ===(userAdd[0][0]).toUpperCase())
-    {
-      dispatch(AddAddressData(val));
-    }
   };
 
   return (
     <div className="App">
+      {/* <Wallet Connect/> */}
+      <WalletConnect
+        connectWalletHandler={connectWalletHandler}
+        connButtonText={connButtonText}
+      />
 
-
-
-    <BrowserRouter>
-      {/* <Nav/> */}
-      <Nav/>
-      <Routes>
-      
-      <Route path="/" element={<Home connectWalletHandler={connectWalletHandler} connButtonText={connButtonText} />}></Route>
-      <Route path="/feedback" element={<Feedback  setTransaction={setTransaction}/>}></Route>
-      <Route path="/profile"  element={<Profile
-      setUser ={setUser} 
-      account = {defaultAccount}
-      getRegisteredforIndex={getRegisteredforIndex}
-      getUserFromAddress ={getUserFromAddress}
-      setPenalty = {setPenalty}
-      setTransaction={setTransaction}
-      />}></Route>
-      </Routes>
-      {/* <Footer/> */}
-      <Footer/>
-      </BrowserRouter>
-      <div>Just This console for test  {console.log("All Contract Data is", contractData)}</div>
+     
       <div>
-      </div>
 
+         {/* Wallet Connect Component Code */}
+        {/* <h4> Test Contract Interactions </h4>
+        <button onClick={connectWalletHandler}>{connButtonText}</button>
+        <div>
+          <h3>Address: {defaultAccount}</h3>
+        </div> */}
+
+        {/* Set Contractor */}
+
+        <form onSubmit={setContractor}>
+          <input id="setText" type="text" />
+          <button type={"submit"}> Update Contractor </button>
+        </form>
+
+        {/* setTransactions */}
+        <h1>Transaction Check Here</h1>
+        <input type="text" onChange={(e) => setTransData(e.target.value)} />
+        <button
+          onClick={() => {
+            setTransaction(TransData);
+          }}
+        >
+          Set Transaction Data
+        </button>
+
+        {/* setPenalty */}
+        <h1>Penalty check here</h1>
+        <input type="text" onChange={(e) => setTransData(e.target.value)} />
+        <button
+          onClick={() => {
+            setPenalty(TransData);
+          }}
+        >
+          Set Transaction Data
+        </button>
+
+        {/* SetUser */}
+        <div className="setuser">
+          <form onSubmit={setUser}>
+            <input id="setMeal" type="text" />
+            <input id="setUname" type="text" />
+            <input id="setExpiry" type="text" />
+            <button type={"submit"}> Update User </button>
+          </form>
+        </div>
+
+        {/* //getUserFromAddress */}
+        <h1>Get Userdata from address</h1>
+        <input type="text" onChange={(e) => setTemp(e.target.value)} />
+        <button
+          onClick={() => {
+            getUserFromAddress(temp);
+          }}
+        >
+          Get data of address
+        </button>
+        <h1>{console.log(contractData.UserData)}</h1>
+
+        {/* GetName */}
+        <div>
+          <button onClick={getname} style={{ marginTop: "5em" }}>
+            {" "}
+            Get Contract Name{" "}
+          </button>
+        </div>
+
+        {/* Display */}
+        <button
+          onClick={() => {
+            getRegisteredforIndex(0);
+          }}
+        >
+          {" "}
+          Get address for user 0{" "}
+        </button>
+        <button
+          onClick={() => {
+            {
+              dispatch(registerUser("Gupta"));
+            }
+          }}
+        >
+          Register Array add gupta
+        </button>
+        <h1>{console.log(contractData.registeredArray)}</h1>
+        <h1>{currentContractVal}</h1>
+        {errorMessage}
+      </div>
     </div>
   );
 }

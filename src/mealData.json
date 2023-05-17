@@ -1,0 +1,55 @@
+[
+    {
+        "id":"1",
+        "name": "Fresh Chicken Salad",
+        "description":"Lorem ipsum dolor sit amet, consectetur koit adipiscing elit, sed do.",
+        "image":"assets/images/tab-item-01.png",
+        "price":"$10.50",
+        "mealtype": "nonveg",
+        "time" : "BLD"
+    },
+    {   "id":"1",
+        "name": "Orange Juice",
+        "description":"Lorem ipsum dolor sit amet, consectetur koit adipiscing elit, sed do.",
+        "image":"assets/images/tab-item-02.png",
+        "price":"$8.50",
+        "mealtype": "vegan",
+        "time" : "BLD"
+    },
+
+    {
+        "name": "Paneer Tikka curry",
+        "description":"Lorem ipsum dolor sit amet, consectetur koit adipiscing elit, sed do.",
+        "image":"assets/images/tab-item-03.png",
+        "price":"$9.9",
+        "mealtype": "veg",
+        "time" : "LD"
+    },
+
+    {
+        "name": "Fruit Salad",
+        "description":"Lorem ipsum dolor sit amet, consectetur koit adipiscing elit, sed do.",
+        "image":"assets/images/tab-item-03.png",
+        "price":"$9.9",
+        "mealtype": "veg",
+        "time" : "BLD"
+    },
+    {
+        "name": "Eggs Omelette",
+        "description":"Lorem ipsum dolor sit amet, consectetur koit adipiscing elit, sed do.",
+        "image":"assets/images/tab-item-04.png",
+        "price":"$6.5"
+    },
+    {
+        "name": "Dollma Pire",
+        "description":"Lorem ipsum dolor sit amet, consectetur koit adipiscing elit, sed do.",
+        "image":"assets/images/tab-item-05.png",
+        "price":"$5.00"
+    },
+    {
+        "name": "Omelette & Cheese",
+        "description":"Lorem ipsum dolor sit amet, consectetur koit adipiscing elit, sed do.",
+        "image":"assets/images/tab-item-06.png",
+        "price":"$22"
+    }
+]

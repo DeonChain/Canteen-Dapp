@@ -36,3 +36,89 @@
     transform: rotate(360deg);
   }
 }
+
+.main-heading{
+  background-color: #61dafb;
+  margin-top: 0%;
+  color: red;
+}
+
+.navbar{
+  background-color: green;
+  text-align: left;
+  padding-left: 50px;
+}
+
+.navlink{
+  margin-left: 20px;
+  color: beige;
+}
+
+.homeElement{
+  max-height: 50%;
+}
+
+.profile-form{
+  border: red 2px solid;
+  background-color: beige;
+  align-items: center;
+  margin: auto;
+}
+
+.addressbox{
+
+  height: 30px;
+  margin-bottom: 20px;
+}
+
+.proSub{
+  width: 200px;
+  margin-left: 20px;
+}
+
+.walletButton{
+background-color: #fff;
+border: 3px solid #fb6356;
+color: #fb6356;
+height: 50px;
+margin: auto;
+width: 150px;
+}
+
+.weeklysubmit{
+  margin:auto;
+  width:50px;
+}
+
+.aboutSection{
+  margin-top: 100px;
+}
+
+.fbbox{
+  margin-bottom: 20px;
+}
+
+.typeUser{
+  color: aliceblue;
+}
+
+.profileUser{
+  background-color: #fff;
+  padding-top: 50px;
+  padding-bottom: 70px;
+  margin-left: 10px;
+}
+
+.profileUser2{
+  background-color: #fff;
+  padding-top: 50px;
+  padding-bottom: 70px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-left: 10px;
+}
+
+subExp{
+  color: red;
+  text-size-adjust: 10px;
+}

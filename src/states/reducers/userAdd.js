@@ -5,7 +5,10 @@ export const userAddSlice = createSlice({
     initialState: [],
     reducers: {
         setAdd: (state,action)=>{
-            state.push(action.payload);
+            if (!(action.payload===null))
+            {
+                state.push(action.payload);
+            }
         },
     }
 })
