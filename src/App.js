@@ -56,9 +56,7 @@ function App() {
   useEffect(()=>{
     if (!(contract === null))
     {
-        get_total_users();
-
-       
+       get_total_users();
     }
   },[contract])
 
@@ -161,7 +159,7 @@ function App() {
 
   const get_total_users = async () => {
     let val = await contract.total_users();
-    dispatch(setNoOfUsers(parseInt((val._hex).slice(-2))));
+    await dispatch(setNoOfUsers(parseInt((val._hex).slice(-2))));
   };
 
   // getRegisteredforIndex ---> Get useraddress for an index, add UserAddress in ContractData.registeredArray
